@@ -38,7 +38,7 @@ O distanciamento físico entre todos da turma torna o desenvolvimento da discipl
 
 |    id |      prazo | assunto
 | ----: | ---------: | :-----------
-|    T1 |        ASD | simulador (descrição em breve)
+|    T1 |        ASD | [simulador de CPU](https://github.com/BenhurUFSM/so21b/blob/main/Trabalhos/t1.md)
 
 ## Ementa
 
