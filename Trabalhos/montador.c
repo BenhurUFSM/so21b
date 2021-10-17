@@ -8,12 +8,14 @@
 
 // auxiliares
 
+// aborta o programa com uma mensagem de erro
 void erro_brabo(char *msg)
 {
   fprintf(stderr, "ERRO FATAL: %s\n", msg);
   exit(1);
 }
 
+// retorna true se tem um número na string s (e retorna o número também); false se não
 bool tem_numero(char *s, int *num)
 {
   if (isdigit(*s) || (*s == '-' && isdigit(*(s+1)))) {
@@ -25,10 +27,13 @@ bool tem_numero(char *s, int *num)
 
 // memoria de saida
 
+// representa a memória do programa; a saída do montador é colocada aqui
+
 #define MEM_TAM 1000
 int mem[MEM_TAM];
-int mem_pos;
+int mem_pos;        // próxima posiçao livre da memória
 
+// coloca um valor no final da memória
 void mem_insere(int val)
 {
   if (mem_pos >= MEM_TAM-1) {
@@ -37,6 +42,7 @@ void mem_insere(int val)
   mem[mem_pos++] = val;
 }
 
+// altera o valor em uma posição já ocupada da memória
 void mem_altera(int pos, int val)
 {
   if (pos < 0 || pos >= mem_pos) {
@@ -45,6 +51,7 @@ void mem_altera(int pos, int val)
   mem[pos] = val;
 }
 
+// imprime o conteúdo da memória
 void mem_imprime(void)
 {
   for (int i = 0; i < mem_pos; i+=10) {
@@ -58,13 +65,16 @@ void mem_imprime(void)
 
 // simbolos
 
+// tabela com os símbolos (labels) já definidos pelo programa, e o valor (endereço) deles
+
 #define SIMB_TAM 1000
 struct {
   char *nome;
   int endereco;
 } simbolo[SIMB_TAM];
-int simb_num;
+int simb_num;             // número d símbolos na tabela
 
+// retorna o valor de um símbolo, ou -1 se não existir na tabela
 int simb_endereco(char *nome)
 {
   for (int i=0; i<simb_num; i++) {
@@ -75,6 +85,7 @@ int simb_endereco(char *nome)
   return -1;
 }
 
+// insere um novo símbolo na tabela
 void simb_novo(char *nome, int endereco)
 {
   if (nome == NULL) return;
@@ -93,14 +104,17 @@ void simb_novo(char *nome, int endereco)
 
 // referencias
 
+// tabela com referências a símbolos, contém a linha e o endereço correspondente onde o símbolo foi referenciado
+
 #define REF_TAM 1000
 struct {
   char *nome;
   int linha;
   int endereco;
 } ref[REF_TAM];
-int ref_num;
+int ref_num;      // numero de referências criadas
 
+// insere uma nova referência na tabela
 void ref_nova(char *nome, int linha, int endereco)
 {
   if (nome == NULL) return;
@@ -113,6 +127,7 @@ void ref_nova(char *nome, int linha, int endereco)
   ref_num++;
 }
 
+// resolve as referências -- para cada referência, coloca o valor do símbolo no endereço onde ele é referenciado
 void ref_resolve(void)
 {
   for (int i=0; i<ref_num; i++) {
@@ -129,10 +144,17 @@ void ref_resolve(void)
 
 // instrucoes
 
+// tabela com as instruções reconhecidas pelo montador
+// além das instruções da CPU, tem ainda algumas pseudo-instruções, que são processadas pelo montador, não geram código:
+//   VALOR - inicaliza a próxima posição de memória com o valor do argumento
+//   ESPACO - reserva tantas palavras de espaço nas próximas posições da memória (corresponde a tantos "VALOR 0")
+//   DEFINE - define um valor para um símbolo (obrigatoriamente tem que ter um label, 
+//            que é definido com o valor do argumento e não com a posição atual da memória) -- ainda não implementado
+
 typedef enum {
   NOP,    PARA,   CARGI,  CARGM,  CARGX,  ARMM,   ARMX,   MVAX,
   MVXA,   INCX,   SOMA,   SUB,    MULT,   DIV,    RESTO,  NEG,
-  DESV,   DESVZ,  DESVNZ, LE,     ESCR,   CONST,  ESPACO,
+  DESV,   DESVZ,  DESVNZ, LE,     ESCR,   VALOR,  ESPACO, //DEFINE,
 } opcode_t;
 struct {
   char *nome;
@@ -160,11 +182,13 @@ struct {
   { "LE",     1 },
   { "ESCR",   1 },
   // pseudo-instrucoes
-  { "CONST",  1 },
+  { "VALOR",  1 },
   { "ESPACO", 1 },
+  //{ "DEFINE", 1 },
 };
 #define INSTR_NUM (sizeof(instrucoes)/sizeof(instrucoes[0]))
 
+// retorna o opcode correspondente a instrução com o nome dado
 int instr_opcode(char *nome)
 {
   for (int i=0; i<INSTR_NUM; i++) {
@@ -177,11 +201,12 @@ int instr_opcode(char *nome)
 
 // montagem
 
+// realiz a montagem de uma instrução (gera o código para ela ena memória), dados opcode e argumento
 void monta_instrucao(int linha, int opcode, char *arg)
 {
-  // trata pseudo-opcodes antes
-  int argn;
+  int argn;  // para conter o valor numérico do argumento
   
+  // trata pseudo-opcodes antes
   if (opcode == ESPACO) {
     if (!tem_numero(arg, &argn) || argn < 1) {
       fprintf(stderr, "ERRO: linha %d 'ESPACO' deve ter valor positivo\n",
@@ -192,7 +217,7 @@ void monta_instrucao(int linha, int opcode, char *arg)
       mem_insere(0);
     }
     return;
-  } else if (opcode == CONST) {
+  } else if (opcode == VALOR) {
     // nao faz nada, vai inserir o valor definido em arg
   } else {
     mem_insere(opcode);
@@ -211,6 +236,8 @@ void monta_instrucao(int linha, int opcode, char *arg)
 
 void monta_linha(int linha, char *label, char *instrucao, char *arg)
 {
+  // pseudo-instrução DEFINE tem que ser tratada antes, porque não pode definir o label de fornma normal
+  //if (strcmp(instrucao, "DEFINE")...
   if (label != NULL) {
     simb_novo(label, mem_pos);
   }
