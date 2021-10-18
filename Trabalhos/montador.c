@@ -27,7 +27,7 @@ bool tem_numero(char *s, int *num)
 
 // memoria de saida
 
-// representa a memória do programa; a saída do montador é colocada aqui
+// representa a memória do programa -- a saída do montador é colocada aqui
 
 #define MEM_TAM 1000
 int mem[MEM_TAM];
@@ -154,7 +154,7 @@ void ref_resolve(void)
 typedef enum {
   NOP,    PARA,   CARGI,  CARGM,  CARGX,  ARMM,   ARMX,   MVAX,
   MVXA,   INCX,   SOMA,   SUB,    MULT,   DIV,    RESTO,  NEG,
-  DESV,   DESVZ,  DESVNZ, LE,     ESCR,   VALOR,  ESPACO, //DEFINE,
+  DESV,   DESVZ,  DESVNZ, LE,     ESCR,   VALOR,  ESPACO, DEFINE,
 } opcode_t;
 struct {
   char *nome;
@@ -184,13 +184,14 @@ struct {
   // pseudo-instrucoes
   { "VALOR",  1 },
   { "ESPACO", 1 },
-  //{ "DEFINE", 1 },
+  { "DEFINE", 1 },
 };
 #define INSTR_NUM (sizeof(instrucoes)/sizeof(instrucoes[0]))
 
 // retorna o opcode correspondente a instrução com o nome dado
 int instr_opcode(char *nome)
 {
+  if (nome == NULL) return -1;
   for (int i=0; i<INSTR_NUM; i++) {
     if (strcmp(instrucoes[i].nome, nome) == 0) {
       return i;
@@ -201,7 +202,7 @@ int instr_opcode(char *nome)
 
 // montagem
 
-// realiz a montagem de uma instrução (gera o código para ela ena memória), dados opcode e argumento
+// realiza a montagem de uma instrução (gera o código para ela na memória), tendo opcode e argumento
 void monta_instrucao(int linha, int opcode, char *arg)
 {
   int argn;  // para conter o valor numérico do argumento
@@ -220,6 +221,7 @@ void monta_instrucao(int linha, int opcode, char *arg)
   } else if (opcode == VALOR) {
     // nao faz nada, vai inserir o valor definido em arg
   } else {
+    // instrução real, coloca o opcode da instrução na memória
     mem_insere(opcode);
   }
   if (instrucoes[opcode].num_args == 0) {
@@ -236,13 +238,30 @@ void monta_instrucao(int linha, int opcode, char *arg)
 
 void monta_linha(int linha, char *label, char *instrucao, char *arg)
 {
-  // pseudo-instrução DEFINE tem que ser tratada antes, porque não pode definir o label de fornma normal
-  //if (strcmp(instrucao, "DEFINE")...
+  int num_instr = instr_opcode(instrucao);
+  // pseudo-instrução DEFINE tem que ser tratada antes, porque não pode definir o label de forma normal
+  if (num_instr == DEFINE) {
+    int argn;  // para conter o valor numérico do argumento
+    if (label == NULL) {
+      fprintf(stderr, "ERRO: linha %d: 'DEFINE' exige um label\n",
+                      linha);
+    } else if (!tem_numero(arg, &argn)) {
+      fprintf(stderr, "ERRO: linha %d 'DEFINE' exige valor numérico\n",
+              linha);
+    } else {
+      // tudo OK, define o símbolo
+      simb_novo(label, argn);
+    }
+    return;
+  }
+  
+  // cria símbolo correspondente ao label, se for o caso
   if (label != NULL) {
     simb_novo(label, mem_pos);
   }
+  
+  // verifica a existência de instrução e número coreto de argumentos
   if (instrucao == NULL) return;
-  int num_instr = instr_opcode(instrucao);
   if (num_instr == -1) {
     fprintf(stderr, "ERRO: linha %d: instrucao '%s' desconhecida\n",
                     linha, instrucao);
@@ -258,35 +277,51 @@ void monta_linha(int linha, char *label, char *instrucao, char *arg)
                     linha, instrucao);
     return;
   }
+  //
   monta_instrucao(linha, num_instr, arg);
 }
 
+// retorna true se o caractere for um espaço (ou tab)
+bool espaco(char c)
+{
+  return c == ' ' || c == '\t';
+}
+
+// encontra o primeiro caractere que não seja espaço (ou tab) na string
 char *pula_ate_espaco(char *s)
 {
-  while (*s != ' ' && *s != '\0') {
+  while (!espaco(*s) && *s != '\0') {
     s++;
   }
   return s;
 }
 
+// troca espaços por fim de string
 char *detona_espacos(char *s)
 {
-  while (*s == ' ') {
+  while (espaco(*s)) {
     *s = '\0';
     s++;
   }
   return s;
 }
 
+// faz a string terminar no início de um comentário, se houver
+// aproveita e termina se chegar no fim de linha
 void tira_comentario(char *s)
 {
-  // um comentário começa com ';' -- faz a string terminar aí.
-  while(*s != '\0' && *s != ';') {
+  while(*s != '\0' && *s != ';' && *s != '\n') {
     s++;
   }
   *s = '\0';
 }
 
+// uma linha montável é formada por [label][ instrucao[ argumento]]
+// o que está entre [] é opcional
+// as partes são separadas por espaço(s)
+// de ';' em diante, ignora-se (comentário)
+// a string é alterada, colocando-se NULs no lugar dos espaços, para separá-la em substrings
+// quem precisar guardar essas substrings, deve copiá-las.
 void monta_string(int linha, char *str)
 {
   char *label = NULL;
@@ -294,7 +329,7 @@ void monta_string(int linha, char *str)
   char *arg = NULL;
   tira_comentario(str);
   if (*str == '\0') return;
-  if (*str != ' ') {
+  if (!espaco(*str)) {
     label = str;
     str = pula_ate_espaco(str);
   }
