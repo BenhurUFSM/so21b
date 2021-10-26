@@ -34,6 +34,7 @@ O distanciamento físico entre todos da turma torna o desenvolvimento da discipl
 | ---: | :----: | :--------
 |    1 |  14out | [introdução \[1.1, 1.2\]](https://github.com/BenhurUFSM/so21b/blob/main/Assuntos/01.md)
 |    2 |  19out | [introdução (HW) \[1.3\]](https://github.com/BenhurUFSM/so21b/blob/main/Assuntos/02.md)
+|    3 |  21out | introdução (conceitos, chamadas de sistema) \[1.5, 1.6\]
 
 ## Trabalhos, provas
 
