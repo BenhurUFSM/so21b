@@ -36,6 +36,7 @@ O distanciamento físico entre todos da turma torna o desenvolvimento da discipl
 |    2 |  19out | [introdução (HW) \[1.3\]](https://github.com/BenhurUFSM/so21b/blob/main/Assuntos/02.md)
 |    3 |  21out | introdução (conceitos, chamadas de sistema) \[1.5, 1.6\]
 |    4 |  26out | introdução (tipos de SO, organização de SO) \[1.4, 1.7\]
+|    5 |  28out | processos \[2.1\]
 
 ## Trabalhos, provas
 
