@@ -38,6 +38,7 @@ O distanciamento físico entre todos da turma torna o desenvolvimento da discipl
 |    4 |  26out | introdução (tipos de SO, organização de SO) \[1.4, 1.7\]
 |    5 |  28out | processos \[2.1\]
 |    6 |   4nov | escalonamento de processos \[2.4\]
+|    7 |   9nov | escalonamento de processos, cont. \[2.4 + multimidia\]
 
 ## Trabalhos, provas
 
