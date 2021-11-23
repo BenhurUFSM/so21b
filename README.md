@@ -39,6 +39,9 @@ O distanciamento físico entre todos da turma torna o desenvolvimento da discipl
 |    5 |  28out | processos \[2.1\]
 |    6 |   4nov | escalonamento de processos \[2.4\]
 |    7 |   9nov | escalonamento de processos, cont. \[2.4 + multimidia\]
+|    8 |  11nov | threads \[2.2\]
+|    9 |  16nov | comunicação entre processos \[2.3.1-3\]
+|   10 |  18nov | comunicação entre processos, cont. \[2.3.4-5\]
 
 ## Trabalhos, provas
 
