@@ -49,7 +49,8 @@ O distanciamento físico entre todos da turma torna o desenvolvimento da discipl
 | ----: | ---------: | :-----------
 |    T1 |    3nov12h | [simulador de CPU](https://github.com/BenhurUFSM/so21b/blob/main/Trabalhos/t1.md)
 |    T2 |        ASD | [unidade de controle](https://github.com/BenhurUFSM/so21b/blob/main/Trabalhos/t2.md)
-|    T3 |      25nov | [multiprogramação](https://github.com/BenhurUFSM/so21b/blob/main/Trabalhos/t3.md)
+|    T3 |      02dez | [multiprogramação](https://github.com/BenhurUFSM/so21b/blob/main/Trabalhos/t3.md)
+|    T4 |            | criação dinâmica de processos, bloqueio em E/S
 
 ## Ementa
 
