@@ -154,7 +154,8 @@ void ref_resolve(void)
 typedef enum {
   NOP,    PARA,   CARGI,  CARGM,  CARGX,  ARMM,   ARMX,   MVAX,
   MVXA,   INCX,   SOMA,   SUB,    MULT,   DIV,    RESTO,  NEG,
-  DESV,   DESVZ,  DESVNZ, LE,     ESCR,   VALOR,  ESPACO, DEFINE,
+  DESV,   DESVZ,  DESVNZ, LE,     ESCR,   CRIA,
+  VALOR,  ESPACO, DEFINE,
 } opcode_t;
 struct {
   char *nome;
@@ -181,6 +182,7 @@ struct {
   { "DESVNZ", 1 },
   { "LE",     1 },
   { "ESCR",   1 },
+  { "CRIA",   1 },
   // pseudo-instrucoes
   { "VALOR",  1 },
   { "ESPACO", 1 },
