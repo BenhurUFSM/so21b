@@ -46,6 +46,7 @@ O distanciamento físico entre todos da turma torna o desenvolvimento da discipl
 |   12 |  25nov | (JAI) dúvidas sobre trabalhos
 |   13 |  30nov | comunicação entre processos, cont. \[2.3.6-8\]
 |   14 |   2dez | problemas clássicos de comunicação entre processos \[2.5\]
+|   15 |   7dez | gerenciamento de memória \[3.1, 3.2\]
 
 ## Trabalhos, provas
 
