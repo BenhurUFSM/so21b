@@ -50,6 +50,7 @@ O distanciamento físico entre todos da turma torna o desenvolvimento da discipl
 |   16 |   9dez | gerenciamento de memória - memória virtual \[3.3\]
 |   17 |  14dez | gerenciamento de memória - algoritmos de substituição de páginas \[3.4, 3.5\]
 |   18 |  16dez | segmentação \[3.7\]
+|      |        |
 |   19 |  11jan | *deadlocks* (impasses)
 
 ## Trabalhos, provas
