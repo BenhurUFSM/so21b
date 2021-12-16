@@ -47,6 +47,10 @@ O distanciamento físico entre todos da turma torna o desenvolvimento da discipl
 |   13 |  30nov | comunicação entre processos, cont. \[2.3.6-8\]
 |   14 |   2dez | problemas clássicos de comunicação entre processos \[2.5\]
 |   15 |   7dez | gerenciamento de memória \[3.1, 3.2\]
+|   16 |   9dez | gerenciamento de memória - memória virtual \[3.3\]
+|   17 |  14dez | gerenciamento de memória - algoritmos de substituição de páginas \[3.4, 3.5\]
+|   18 |  16dez | segmentação \[3.7\]
+|   19 |  11jan | *deadlocks* (impasses)
 
 ## Trabalhos, provas
 
