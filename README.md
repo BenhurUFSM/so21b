@@ -61,6 +61,7 @@ O distanciamento físico entre todos da turma torna o desenvolvimento da discipl
 |    T2 |            | [unidade de controle](https://github.com/BenhurUFSM/so21b/blob/main/Trabalhos/t2.md)
 |    T3 |      02dez | [multiprogramação](https://github.com/BenhurUFSM/so21b/blob/main/Trabalhos/t3.md)
 |    T4 |            | [criação dinâmica de processos, bloqueio em E/S, escalonamento](https://github.com/BenhurUFSM/so21b/blob/main/Trabalhos/t4.md)
+|    T5 |            | [memória virtual](https://github.com/BenhurUFSM/so21b/blob/main/Trabalhos/t5.md)
 
 ## Ementa
 
