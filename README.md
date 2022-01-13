@@ -51,7 +51,8 @@ O distanciamento físico entre todos da turma torna o desenvolvimento da discipl
 |   17 |  14dez | gerenciamento de memória - algoritmos de substituição de páginas \[3.4, 3.5\]
 |   18 |  16dez | segmentação \[3.7\]
 |      |        |
-|   19 |  11jan | *deadlocks* (impasses)
+|   19 |  11jan | *deadlocks* (impasses) \[6-6.4\]
+|   20 |  13jan | *deadlocks* (impasses), cont. \[6.5-6.7\]
 
 ## Trabalhos, provas
 
