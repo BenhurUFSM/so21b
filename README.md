@@ -53,6 +53,12 @@ O distanciamento físico entre todos da turma torna o desenvolvimento da discipl
 |      |        |
 |   19 |  11jan | *deadlocks* (impasses) \[6-6.4\]
 |   20 |  13jan | *deadlocks* (impasses), cont. \[6.5-6.7\]
+|   21 |  13jan | 
+|   22 |  18jan | entrada e saída \[5.1-5.2\]
+|   23 |  20jan | entrada e saída \[5.3\]
+|   24 |  25jan | sistemas de arquivos \[4.1-4.2\]
+|   25 |  27jan | sistemas de arquivos, cont \[4.3\]
+
 
 ## Trabalhos, provas
 
